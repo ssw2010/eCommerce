@@ -14,8 +14,14 @@ class Customer(models.Model):
 
 class Product(models.Model):
 	name = models.CharField(max_length=200)
-#    scientific_name = models.CharField(max_length=200)
-	sname = models.CharField(max_length = 50)
+	sname = models.CharField(max_length =100)
+	Aspect = models.CharField(max_length =100,null=True, blank=True)
+	Sconditions = models.CharField(max_length = 100)
+	Description = models.CharField(max_length = 200)
+	Family = models.CharField(max_length = 100)
+	Natural_Habitat = models.CharField(max_length = 100)
+	Special_Features = models.CharField(max_length = 200)
+	QuantityOfStock = models.IntegerField()
 	price = models.FloatField()
 	digital = models.BooleanField(default=False,null=True, blank=True)
 	image = models.ImageField(null=True, blank=True)
