@@ -1,9 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+
 from django.http import JsonResponse
 import json
 import datetime
 from .models import *
 from .utils import cookieCart, cartData, guestOrder
+#from django.shortcuts import render, get_object_or_404
 
 
 def test(request):
@@ -20,8 +22,6 @@ def store(request):
 	context = {'products':products, 'cartItems':cartItems}
 	return render(request, 'store/store.html', context)
 
-def plants(request):
-    return render(request, "store/plant.html")
 
 def cart(request):
 	data = cartData(request)
@@ -67,6 +67,38 @@ def updateItem(request):
 		orderItem.delete()
 
 	return JsonResponse('Item was added', safe=False)
+
+###https://docs.djangoproject.com/en/3.0/intro/tutorial03/
+
+
+def dynamic_lookup_view(request, id):
+    product = Product.objects.get(id=id)
+    products = get_object_or_404(Product, id=id)
+
+
+    context = {'products':products, 'product':product}
+	#context = {'products':products, 'product':product}
+	#context = {'products':products, 'product':product}
+    return render(request, "store/product_details.html", context)
+
+
+#@app.route('/profile/<id>')
+#def profile(id):
+#    userid = Plant.query.filter_by(id=id).first_or_404()
+#    #userid = userid.id
+#    return render_template('profile.html', userid=userid )
+
+#from django.http import Http404, 'product':product
+#from django.shortcuts import render
+#from polls.models import Poll
+
+#def detail(request, poll_id):
+#    try:
+#        p = Poll.objects.get(pk=poll_id)
+#    except Poll.DoesNotExist:
+#        raise Http404("Poll does not exist")
+#    return render(request, 'polls/detail.html', {'poll': p})
+
 
 def processOrder(request):
 	transaction_id = datetime.datetime.now().timestamp()

@@ -5,7 +5,8 @@ from . import views
 urlpatterns = [
 	#Leave as empty string for base url
 	path('', views.store, name="store"),
-	path('', views.plants, name="plants"),
+#	path('<int:id>/', views.product_detail_view, name='product-detail'),
+    path('<int:id>/', views.dynamic_lookup_view, name='product'),
 	path('cart/', views.cart, name="cart"),
 	path('checkout/', views.checkout, name="checkout"),
     path("test/", views.test, name="test"),
