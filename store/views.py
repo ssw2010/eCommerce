@@ -7,9 +7,11 @@ from .models import *
 from .utils import cookieCart, cartData, guestOrder
 #from django.shortcuts import render, get_object_or_404
 
-
+###for testing only
 def test(request):
-    return render(request, "store/test.html")
+    products = Product.objects.all()
+    context = {'products':products}
+    return render(request, "store/test.html", context)
 
 def store(request):
 	data = cartData(request)

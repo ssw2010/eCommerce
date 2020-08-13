@@ -2,23 +2,45 @@
 {% load static %}
 {% block content %}
 
+<style>
+#customers {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
 
 
 
 
 
 
-
-		<div class="table table-condensed">
-     <table class="table table-sm table-success table-bordered">
-         <thead class="thead-dark">
+		     <table table id="customers"> 
+         <thead>
                <tr>
 
-      <th scope="col">Scientific Name</th>
-      <th scope="col">Common Name</th>
-      <th scope="col">Quantity</th>
-      <th scope="col">Form</th>
-
+      <th scope="col"style="text-align:center" >Scientific Name</th>
+      <th scope="col"style="text-align:center">Common Name</th>
+      <th scope="col" style="text-align:center">Quantity in Stock</th>
+      <th scope="col"style="text-align:center" >Add Plant to Cart</th>
+     
 
 
       </tr>
@@ -27,12 +49,10 @@
 
         {% for product in products %}
             <tr>
-           <td>{{product.name}}</td><td>{{product.sname}}</td><td><button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button></td><td><a class="btn btn-outline-success"
-            <a href="/{{ product.id }}/">view</a></td>
-            <td></tr></td
+           <td><a href="/{{ product.id }}/"><img  id="cart-icon" src="{% static 'images/details.png' %}">{{ product.name }}</a></td><td>{{product.sname}}</td><td style="text-align:center">{{product.id}}
+            </td><td style="text-align:center"><button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart"> Add to Cart </button></td></tr>
         {% endfor %}
      </table>
-
 
 
         </div>
