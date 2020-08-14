@@ -5,7 +5,6 @@
 		<div class="col-lg-6">
 			<div class="box-element" id="form-wrapper">
 				<form id="form">
-				    {% csrf_token %}
 					<div id="user-info">
 						<div class="form-field">
 							<input required class="form-control" type="text" name="name" placeholder="Name..">
@@ -23,15 +22,17 @@
 							<input class="form-control" type="text" name="address" placeholder="Address..">
 						</div>
 						<div class="form-field">
-							<input class="form-control" type="text" name="city" placeholder="City..">
+							<input class="form-control" type="text" name="city" placeholder="Suburb">
 						</div>
 						<div class="form-field">
 							<input class="form-control" type="text" name="state" placeholder="State..">
 						</div>
 						<div class="form-field">
-							<input class="form-control" type="text" name="postcode" placeholder="Zip code..">
+							<input class="form-control" type="text" name="zipcode" placeholder="Postcode..">
 						</div>
-
+						<div class="form-field">
+							<input class="form-control" type="text" name="country" placeholder="country..">
+						</div>
 					</div>
 
 					<hr>
@@ -64,10 +65,6 @@
 				{% endfor %}
 				<h5>Items:   {{order.get_cart_items}}</h5>
 				<h5>Total:   ${{order.get_cart_total|floatformat:2}}</h5>
-				<h5>TotalWithTax:   {{order.get_tax_total}}</h5>
-			<!-- 	<h5>Total:   ${{ShippingAddress.address}}</h5> -->
-
-
 			</div>
 		</div>
 	</div>
@@ -108,7 +105,7 @@
 
 	<script type="text/javascript">
 		var shipping = '{{order.shipping}}'
-            console.log("Test")
+
 		if (shipping == 'False'){
 		 	document.getElementById('shipping-info').innerHTML = ''
 		}
@@ -124,12 +121,7 @@
 			    document.getElementById('payment-info').classList.remove("hidden");
 		}
 
-        var form = document.getElementById('form')
-
-	    csrf = form.getElementsByTagName("input")[0].value
-        //console.log("Newtoken:", form.getElementsByTagName("input")[0].value)
-
-
+		var form = document.getElementById('form')
 		form.addEventListener('submit', function(e){
 	    	e.preventDefault()
 	    	console.log('Form Submitted...')
@@ -178,7 +170,7 @@
 	    	fetch(url, {
 	    		method:'POST',
 	    		headers:{
-	    			'Content-Type':'application/json',
+	    			'Content-Type':'applicaiton/json',
 	    			'X-CSRFToken':csrftoken,
 	    		},
 	    		body:JSON.stringify({'form':userFormData, 'shipping':shippingInfo}),

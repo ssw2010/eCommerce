@@ -35,9 +35,6 @@ def cart(request):
 	context = {'items':items, 'order':order, 'cartItems':cartItems}
 	return render(request, 'store/cart.html', context)
 
-
-
-
 def checkout(request):
 	data = cartData(request)
 
@@ -73,7 +70,7 @@ def updateItem(request):
 
 	return JsonResponse('Item was added', safe=False)
 
-
+###https://docs.djangoproject.com/en/3.0/intro/tutorial03/
 
 
 def dynamic_lookup_view(request, id):
@@ -82,12 +79,11 @@ def dynamic_lookup_view(request, id):
 
 
     context = {'products':products, 'product':product}
-	#context = {'products':products, 'product':product}
-	#context = {'products':products, 'product':product}
+
     return render(request, "store/product_details.html", context)
 
-from django.views.decorators.csrf import csrf_exempt
-@csrf_exempt
+
+
 def processOrder(request):
 	transaction_id = datetime.datetime.now().timestamp()
 	data = json.loads(request.body)
@@ -99,7 +95,6 @@ def processOrder(request):
 		customer, order = guestOrder(request, data)
 
 	total = float(data['form']['total'])
-	ctax = total * 1.1
 	order.transaction_id = transaction_id
 
 	if total == order.get_cart_total:
@@ -117,5 +112,3 @@ def processOrder(request):
 		)
 
 	return JsonResponse('Payment submitted..', safe=False)
-
-
