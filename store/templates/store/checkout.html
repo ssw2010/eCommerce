@@ -29,11 +29,9 @@
 							<input class="form-control" type="text" name="state" placeholder="State..">
 						</div>
 						<div class="form-field">
-							<input class="form-control" type="text" name="zipcode" placeholder="Zip code..">
+							<input class="form-control" type="text" name="postcode" placeholder="Zip code..">
 						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="country" placeholder="Zip code..">
-						</div>
+
 					</div>
 
 					<hr>
@@ -66,6 +64,10 @@
 				{% endfor %}
 				<h5>Items:   {{order.get_cart_items}}</h5>
 				<h5>Total:   ${{order.get_cart_total|floatformat:2}}</h5>
+				<h5>TotalWithTax:   {{order.get_tax_total}}</h5>
+			<!-- 	<h5>Total:   ${{ShippingAddress.address}}</h5> -->
+
+
 			</div>
 		</div>
 	</div>

@@ -73,7 +73,7 @@ def updateItem(request):
 
 	return JsonResponse('Item was added', safe=False)
 
-###https://docs.djangoproject.com/en/3.0/intro/tutorial03/
+
 
 
 def dynamic_lookup_view(request, id):
@@ -99,6 +99,7 @@ def processOrder(request):
 		customer, order = guestOrder(request, data)
 
 	total = float(data['form']['total'])
+	ctax = total * 1.1
 	order.transaction_id = transaction_id
 
 	if total == order.get_cart_total:
@@ -116,3 +117,5 @@ def processOrder(request):
 		)
 
 	return JsonResponse('Payment submitted..', safe=False)
+
+
