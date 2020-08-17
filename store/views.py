@@ -15,7 +15,7 @@ def test(request):
     return render(request, "store/test.html", context)
 
 def dashboard(request):
-	orders = Order.objects.all()
+	orders = Order.objects.all().order_by('-transaction_id')
 	customers = Customer.objects.all()
 
 	total_customers = customers.count()
@@ -33,7 +33,7 @@ def dashboard(request):
 
 def customer(request,pk_test):
     customer = Customer.objects.get(id=pk_test)
-    orders = customer.order_set.all().order_by('-transaction_id')
+    orders = customer.order_set.all()
     order_count = orders.count()
    #address = Customer.order_set.all()
 	#customer = Customer.objects.all()
@@ -61,7 +61,7 @@ def updateOrder(request, pk):
 			return redirect('/')
 
 	context = {'form':form}
-	return render(request, 'accounts/order_form.html', context)
+	return render(request, 'store/order_form.html', context)
 
 def deleteOrder(request, pk):
 	order = Order.objects.get(id=pk)
