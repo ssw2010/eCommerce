@@ -1,10 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 from django.http import JsonResponse
 import json
 import datetime
 from .models import *
 from .utils import cookieCart, cartData, guestOrder
+from .forms import OrderForm
 #from django.shortcuts import render, get_object_or_404
 
 ###for testing only
@@ -12,6 +13,67 @@ def test(request):
     products = Product.objects.all()
     context = {'products':products}
     return render(request, "store/test.html", context)
+
+def dashboard(request):
+	orders = Order.objects.all()
+	customers = Customer.objects.all()
+
+	total_customers = customers.count()
+
+	total_orders = orders.count()
+	delivered = orders.filter(status='Delivered').count()
+	pending = orders.filter(status='Pending').count()
+
+	context = {'orders':orders, 'customers':customers,
+	'total_orders':total_orders,'delivered':delivered,
+	'pending':pending }
+
+	return render(request, 'store/dashboard.html', context)
+
+
+def customer(request,pk_test):
+    customer = Customer.objects.get(id=pk_test)
+    orders = customer.order_set.all().order_by('-transaction_id')
+    order_count = orders.count()
+   #address = Customer.order_set.all()
+	#customer = Customer.objects.all()
+    context = {'customer':customer, 'orders':orders, 'order_count':order_count}
+    return render(request, "store/customer.html", context)
+
+#def customer(request, pk_test):
+#	customer = Customer.objects.get(id=pk_test)
+
+#	orders = customer.order_set.all()
+#	order_count = orders.count()
+
+#	context = {'customer':customer, 'orders':orders, 'order_count':order_count}
+#	return render(request, 'accounts/customer.html',context)
+
+def updateOrder(request, pk):
+
+	order = Order.objects.get(id=pk)
+	form = OrderForm(instance=order)
+
+	if request.method == 'POST':
+		form = OrderForm(request.POST, instance=order)
+		if form.is_valid():
+			form.save()
+			return redirect('/')
+
+	context = {'form':form}
+	return render(request, 'accounts/order_form.html', context)
+
+def deleteOrder(request, pk):
+	order = Order.objects.get(id=pk)
+	if request.method == "POST":
+		order.delete()
+		return redirect('/')
+
+	context = {'item':order}
+	return render(request, 'accounts/delete.html', context)
+
+
+
 
 def store(request):
 	data = cartData(request)
@@ -112,3 +174,15 @@ def processOrder(request):
 		)
 
 	return JsonResponse('Payment submitted..', safe=False)
+
+def createOrder(request):
+	form = OrderForm()
+	if request.method == 'POST':
+		#print('Printing POST:', request.POST)
+		form = OrderForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return redirect('/')
+
+	context = {'form':form}
+	return render(request, 'accounts/order_form.html', context)

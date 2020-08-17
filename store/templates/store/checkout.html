@@ -96,6 +96,7 @@
             onApprove: function(data, actions) {
                 return actions.order.capture().then(function(details) {
                     // Show a success message to the buyer
+                   alert('Transaction ID ' + details.id + 'successfully completed for' + details.payer.name.given_name + " " + details.payer.name.surname)
                     submitFormData()
                 });
             }
@@ -179,7 +180,7 @@
 	    	.then((response) => response.json())
 	    	.then((data) => {
 				console.log('Success:', data);
-				alert('Transaction Successfully completed');
+				//alert('Transaction Successfully completed');
 
 				cart = {}
 				document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"

@@ -38,13 +38,26 @@ class Product(models.Model):
 		return url
 
 class Order(models.Model):
+
+	STATUS = (('Pending', 'Pending'),
+			('Out for delivery', 'Out for delivery'),
+			('Delivered', 'Delivered'),)
+	status = models.CharField(max_length=200, null=True, default = 'Pending', choices=STATUS)
 	customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
 	date_ordered = models.DateTimeField(auto_now_add=True)
 	complete = models.BooleanField(default=False)
 	transaction_id = models.CharField(max_length=100, null=True)
 
 	def __str__(self):
-		return str(self.id)
+		return str(self.transaction_id)
+
+	STATUS = (
+			('Pending', 'Pending'),
+			('Out for delivery', 'Out for delivery'),
+			('Delivered', 'Delivered'),	)
+
+
+
 
 	@property
 	def shipping(self):
