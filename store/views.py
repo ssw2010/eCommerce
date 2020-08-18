@@ -6,6 +6,7 @@ import datetime
 from .models import *
 from .utils import cookieCart, cartData, guestOrder
 from .forms import OrderForm
+from .filters import OrderFilter,ProductFilter
 #from django.shortcuts import render, get_object_or_404
 
 ###for testing only
@@ -40,14 +41,7 @@ def customer(request,pk_test):
     context = {'customer':customer, 'orders':orders, 'order_count':order_count}
     return render(request, "store/customer.html", context)
 
-#def customer(request, pk_test):
-#	customer = Customer.objects.get(id=pk_test)
 
-#	orders = customer.order_set.all()
-#	order_count = orders.count()
-
-#	context = {'customer':customer, 'orders':orders, 'order_count':order_count}
-#	return render(request, 'accounts/customer.html',context)
 
 def updateOrder(request, pk):
 
@@ -83,7 +77,20 @@ def store(request):
 	items = data['items']
 
 	products = Product.objects.all()
-	context = {'products':products, 'cartItems':cartItems}
+
+	myFilter2 = ProductFilter(request.GET, queryset=products)
+	products = myFilter2.qs
+
+#   orders = customer.order_set.all()
+#	order_count = orders.count()
+
+#	myFilter = OrderFilter(request.GET, queryset=orders)
+#	orders = myFilter.qs
+
+#	context = {'customer':customer, 'orders':orders, 'order_count':order_count,
+#	'myFilter':myFilter}
+
+	context = {'products':products, 'cartItems':cartItems,'myFilter2':myFilter2}
 	return render(request, 'store/store.html', context)
 
 
