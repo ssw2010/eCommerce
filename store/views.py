@@ -185,4 +185,4 @@ def createOrder(request):
 			return redirect('/')
 
 	context = {'form':form}
-	return render(request, 'accounts/order_form.html', context)
+	return render(request, 'store/order_form.html', context)

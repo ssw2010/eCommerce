@@ -1,3 +1,4 @@
+{%  extends 'store/main.html' %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -63,6 +64,7 @@ img {
 
     <div class="w3-container w3-white">
       <h4><b>{{product.name}}</b></h4>
+      <button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart"> Add to Cart </button></td>
 
 		<a  class="btn btn-outline-dark" href="{% url 'store' %}">&#x2190; Back to Main Page</a>
     </div>
@@ -71,7 +73,7 @@ img {
 <table id="customers">
   <tr>
     <th>Scientific Name</th>
-    <th>Contact</th>
+    <th>{{product.sname}}</th>
 
   </tr>
   <tr>
