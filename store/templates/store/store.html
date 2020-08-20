@@ -31,6 +31,7 @@
 <div class="row">
 	<div class="col">
 		<div class="card card-body">
+		    <h1> <p style="font-family:Trebuchet MS">Search Native Plants at Kumbartcho Nursery.</p> </h1>
 
 			<form method="get">
 				{{myFilter2.form}}
@@ -51,8 +52,8 @@
          <thead>
                <tr>
 
-      <th scope="col"style="text-align:center" >Scientific Name</th>
-      <th scope="col"style="text-align:center">Common Name</th>
+      <th scope="col"style="text-align:center" >Common Name</th>
+      <th scope="col"style="text-align:center">Scientific Name</th>
       <th scope="col" style="text-align:center">Quantity in Stock</th>
       <th scope="col"style="text-align:center" >Add Plant to Cart</th>
 
@@ -64,7 +65,7 @@
 
         {% for product in products %}
             <tr>
-           <td><a href="/{{ product.id }}/"><img  id="cart-icon" src="{% static 'images/details.png' %}">{{ product.name }}</a></td><td>{{product.sname}}</td><td style="text-align:center">{{product.id}}
+           <td><a href="/{{ product.id }}/"><img  id="cart-icon" src="{% static 'images/details.png' %}">{{ product.name }}</a></td><td>{{product.sname}}</td><td style="text-align:center">{{product.QuantityOfStock}}
             </td><td style="text-align:center"><button data-product="{{product.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart"> Add to Cart </button></td></tr>
         {% endfor %}
      </table>

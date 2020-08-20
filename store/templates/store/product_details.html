@@ -60,7 +60,7 @@ img {
 </head>
 <body>
 <div class="w3-card w3-margin w3-margin-top">
-  <img src="{{product.imageURL}}" style="width:80%">
+  <img src="{{product.imageURL}}" style="width:60%">
 
     <div class="w3-container w3-white">
       <h4><b>{{product.name}}</b></h4>
@@ -76,57 +76,48 @@ img {
     <th>{{product.sname}}</th>
 
   </tr>
+
+  <tr>
+    <td>Form</td>
+    <td>{{product.Form}}</td>
+
+  </tr>
+  <tr>
+    <td>Aspect</td>
+    <td>{{product.Aspect}}</td>
+
+  </tr>
+  <tr>
+    <td>Soil Conditions </td>
+    <td>{{product.Soil_Conditions}}</td>
+
+  </tr>
   <tr>
     <td>Description</td>
-    <td><h4><b>{{product.name}}</b></h4></td>
+    <td>{{product.Description}}</td>
 
   </tr>
   <tr>
-    <td>Berglunds snabbköp</td>
-    <td>Christina Berglund<BR /> ///////</td>
+    <td>Family</td>
+    <td>{{product.Family}}</td>
 
   </tr>
   <tr>
-    <td>Centro comercial Moctezuma</td>
-    <td>Francisco Chang</td>
+    <td>Natural Habitat</td>
+    <td>{{product.Natural_Habitat}}</td>
 
   </tr>
   <tr>
-    <td>Ernst Handel</td>
-    <td>Roland Mendel</td>
+    <td>Special Feature</td>
+    <td>{{product.Special_Feature}}</td>
 
   </tr>
   <tr>
-    <td>Island Trading</td>
-    <td>Helen Bennett</td>
+    <td>Quantity of Stock</td>
+    <td>{{product.QuantityOfStock}}</td>
 
   </tr>
-  <tr>
-    <td>Königlich Essen</td>
-    <td>Philip Cramer</td>
-
-  </tr>
-  <tr>
-    <td>Laughing Bacchus Winecellars</td>
-    <td>Yoshi Tannamuri</td>
-
-  </tr>
-  <tr>
-    <td>Magazzini Alimentari Riuniti</td>
-    <td>Giovanni Rovelli</td>
-
-  </tr>
-  <tr>
-    <td>North/South</td>
-    <td>Simon Crowther</td>
-
-  </tr>
-  <tr>
-    <td>Paris spécialités</td>
-    <td>Marie Bertrand</td>
-
-  </tr>
-</table>
+  </table>
 </div>
 {% endblock content %}
 </body>
