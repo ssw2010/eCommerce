@@ -193,3 +193,14 @@ def createOrder(request):
 
 	context = {'form':form}
 	return render(request, 'store/order_form.html', context)
+
+
+
+#from itertools import chain
+#def get_all_cars():
+#    bmws = Bmw.objects.filter()
+#    teslas = Tesla.objects.filter()
+#    cars_list = sorted(
+#        chain(bmws, teslas),
+#        key=lambda car: car.created, reverse=True)
+#    return cars_list
