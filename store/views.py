@@ -5,8 +5,19 @@ import json
 import datetime
 from .models import *
 from .utils import cookieCart, cartData, guestOrder
-from .forms import OrderForm
+from .forms import OrderForm, CreateUserForm
 from .filters import OrderFilter,ProductFilter
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+
+
+from django.contrib.auth import authenticate, login, logout
+
+from django.contrib import messages
+
+from django.contrib.auth.decorators import login_required
+
+
 #from django.shortcuts import render, get_object_or_404
 
 ###for testing only
@@ -64,7 +75,7 @@ def deleteOrder(request, pk):
 		return redirect('/')
 
 	context = {'item':order}
-	return render(request, 'accounts/delete.html', context)
+	return render(request, 'store/delete.html', context)
 
 
 
@@ -194,7 +205,46 @@ def createOrder(request):
 	context = {'form':form}
 	return render(request, 'store/order_form.html', context)
 
+def registerPage(request):
+	if request.user.is_authenticated:
+		return redirect('dashboard')
+	else:
+		form = CreateUserForm()
+		if request.method == 'POST':
+			form = CreateUserForm(request.POST)
+			if form.is_valid():
+				form.save()
+				user = form.cleaned_data.get('username')
+				messages.success(request, 'Account was created for ' + user)
 
+				return redirect('login')
+
+
+		context = {'form':form}
+		return render(request, 'store/register.html', context)
+
+def loginPage(request):
+	if request.user.is_authenticated:
+		return redirect('dashboard')
+	else:
+		if request.method == 'POST':
+			username = request.POST.get('username')
+			password =request.POST.get('password')
+
+			user = authenticate(request, username=username, password=password)
+
+			if user is not None:
+				login(request, user)
+				return redirect('dashboard')
+			else:
+				messages.info(request, 'Username OR password is incorrect')
+
+		context = {}
+		return render(request, 'store/login.html', context)
+
+def logoutUser(request):
+	logout(request)
+	return redirect('login')
 
 #from itertools import chain
 #def get_all_cars():
