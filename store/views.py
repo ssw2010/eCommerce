@@ -8,6 +8,7 @@ from .utils import cookieCart, cartData, guestOrder
 from .forms import OrderForm, CreateUserForm
 from .filters import OrderFilter,ProductFilter
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import Group
 from django.contrib import messages
 from .decorators import unauthenticated_user, allowed_users, admin_only
 
@@ -29,7 +30,11 @@ def test(request):
 
 ##Show dashboard of transactions
 
-@unauthenticated_user
+#@unauthenticated_user
+
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['admin', 'customer'])
+
 def dashboard(request):
 	orders = Order.objects.all().order_by('-transaction_id')
 	customers = Customer.objects.all()
@@ -49,6 +54,7 @@ def dashboard(request):
 ##Show detailed view per customers
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin', 'customer'])
 def customer(request,pk_test):
     customer = Customer.objects.get(id=pk_test)
     orders = customer.order_set.all()
@@ -228,11 +234,14 @@ def registerPage(request):
 		if request.method == 'POST':
 			form = CreateUserForm(request.POST)
 			if form.is_valid():
-				form.save()
-				user = form.cleaned_data.get('username')
-				messages.success(request, 'Account was created for ' + user)
+			    user = form.save()
+			    username = form.cleaned_data.get('username')
 
-				return redirect('login')
+			    group = Group.objects.get(name='customer')
+			    user.groups.add(group)
+
+			    messages.success(request, 'Account was created for ' + username)
+			    return redirect('login')
 
 
 		context = {'form':form}
