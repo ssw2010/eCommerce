@@ -9,6 +9,7 @@ from .forms import OrderForm, CreateUserForm
 from .filters import OrderFilter,ProductFilter
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+from .decorators import unauthenticated_user, allowed_users, admin_only
 
 
 from django.contrib.auth import authenticate, login, logout
@@ -26,6 +27,9 @@ def test(request):
     context = {'products':products}
     return render(request, "store/test.html", context)
 
+##Show dashboard of transactions
+
+@unauthenticated_user
 def dashboard(request):
 	orders = Order.objects.all().order_by('-transaction_id')
 	customers = Customer.objects.all()
@@ -42,7 +46,9 @@ def dashboard(request):
 
 	return render(request, 'store/dashboard.html', context)
 
+##Show detailed view per customers
 
+@login_required(login_url='login')
 def customer(request,pk_test):
     customer = Customer.objects.get(id=pk_test)
     orders = customer.order_set.all()
@@ -54,6 +60,8 @@ def customer(request,pk_test):
 
 
 
+
+@login_required(login_url='login')
 def updateOrder(request, pk):
 
 	order = Order.objects.get(id=pk)
@@ -68,6 +76,7 @@ def updateOrder(request, pk):
 	context = {'form':form}
 	return render(request, 'store/order_form.html', context)
 
+@login_required(login_url='login')
 def deleteOrder(request, pk):
 	order = Order.objects.get(id=pk)
 	if request.method == "POST":
@@ -78,6 +87,11 @@ def deleteOrder(request, pk):
 	return render(request, 'store/delete.html', context)
 
 
+def userPage(request):
+	context = {}
+	return render(request, 'store/user.html', context)
+
+##main page
 
 
 def store(request):
@@ -193,6 +207,7 @@ def processOrder(request):
 
 	return JsonResponse('Payment submitted..', safe=False)
 
+@login_required(login_url='login')
 def createOrder(request):
 	form = OrderForm()
 	if request.method == 'POST':
