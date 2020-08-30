@@ -59,7 +59,13 @@
 		console.log('Cart:', cart)
 
 	</script>
-
+<style>
+  .hello-msg{
+    font-size: 18px;
+    color: #fff;
+    margin-right: 20px;
+  }
+</style>
 </head>
 <body>
 
@@ -77,6 +83,15 @@
 </li>
 <li>
 
+
+  <span ><a  class="hello-msg" href="{% url 'login' %}">Login</a></span>
+
+  <span class="hello-msg">Hello, {{request.user}}</span>
+   <span class="hello-msg">Customer Details {{request.user.customer.date_created }}</span>
+  </li>
+<li>
+
+
   <span ><a  class="hello-msg" href="{% url 'logout' %}">Logout</a></span>
 </li>
 	    </ul>
@@ -84,11 +99,9 @@
     <ul class="navbar-nav">
       {% if request.user.is_staff %}
       <li class="nav-item active">
-        <a class="nav-link" href="{% url 'home' %}">Dashboard</a>
+        <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'products' %}">Products</a>
-      </li>
+
       {% endif %}
     </ul>
   </div>

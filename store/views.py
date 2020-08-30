@@ -33,7 +33,7 @@ def test(request):
 #@unauthenticated_user
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin', 'customer'])
+@allowed_users(allowed_roles=['admin', 'staff'])
 
 def dashboard(request):
 	orders = Order.objects.all().order_by('-transaction_id')
@@ -93,8 +93,19 @@ def deleteOrder(request, pk):
 	return render(request, 'store/delete.html', context)
 
 
+@login_required(login_url='login')
+@allowed_users(allowed_roles=['customer', 'admin'])
 def userPage(request):
-	context = {}
+	orders = request.user.customer.order_set.all()
+
+	total_orders = orders.count()
+	delivered = orders.filter(status='Delivered').count()
+	pending = orders.filter(status='Pending').count()
+
+	print('ORDERS:', orders)
+
+	context = {'orders':orders, 'total_orders':total_orders,
+	'delivered':delivered,'pending':pending}
 	return render(request, 'store/user.html', context)
 
 ##main page
@@ -228,7 +239,7 @@ def createOrder(request):
 
 def registerPage(request):
 	if request.user.is_authenticated:
-		return redirect('dashboard')
+		return redirect('userPage')
 	else:
 		form = CreateUserForm()
 		if request.method == 'POST':
@@ -240,6 +251,11 @@ def registerPage(request):
 			    group = Group.objects.get(name='customer')
 			    user.groups.add(group)
 
+			    Customer.objects.create(
+				user=user,
+				name=user.username,
+				)
+
 			    messages.success(request, 'Account was created for ' + username)
 			    return redirect('login')
 
@@ -249,7 +265,7 @@ def registerPage(request):
 
 def loginPage(request):
 	if request.user.is_authenticated:
-		return redirect('dashboard')
+		return redirect('store')
 	else:
 		if request.method == 'POST':
 			username = request.POST.get('username')
@@ -259,7 +275,7 @@ def loginPage(request):
 
 			if user is not None:
 				login(request, user)
-				return redirect('dashboard')
+				return redirect('store')
 			else:
 				messages.info(request, 'Username OR password is incorrect')
 
