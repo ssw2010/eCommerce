@@ -136,3 +136,12 @@ MEDIA_URL = '/images/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 #STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_ROOT = "/home/myusername/sswyman.pythonanywhere.com/static"
+
+###Chang username and password
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'sswyman'
+EMAIL_HOST_PASSWORD = '****'
