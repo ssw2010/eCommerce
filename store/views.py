@@ -237,31 +237,51 @@ def createOrder(request):
 	context = {'form':form}
 	return render(request, 'store/order_form.html', context)
 
+
+@unauthenticated_user
 def registerPage(request):
-	if request.user.is_authenticated:
-		return redirect('userPage')
-	else:
-		form = CreateUserForm()
-		if request.method == 'POST':
-			form = CreateUserForm(request.POST)
-			if form.is_valid():
-			    user = form.save()
-			    username = form.cleaned_data.get('username')
 
-			    group = Group.objects.get(name='customer')
-			    user.groups.add(group)
-
-			    Customer.objects.create(
-				user=user,
-				name=user.username,
-				)
-
-			    messages.success(request, 'Account was created for ' + username)
-			    return redirect('login')
+	form = CreateUserForm()
+	if request.method == 'POST':
+		form = CreateUserForm(request.POST)
+		if form.is_valid():
+			user = form.save()
+			username = form.cleaned_data.get('username')
 
 
-		context = {'form':form}
-		return render(request, 'store/register.html', context)
+			messages.success(request, 'Account was created for ' + username)
+
+			return redirect('login')
+
+
+	context = {'form':form}
+	return render(request, 'store/register.html', context)
+
+#def registerPage(request):
+#	if request.user.is_authenticated:
+#		return redirect('userPage')
+#	else:
+#		form = CreateUserForm()
+#		if request.method == 'POST':
+#			form = CreateUserForm(request.POST)
+#			if form.is_valid():
+#			    user = form.save()
+#			    username = form.cleaned_data.get('username')
+#
+#			    group = Group.objects.get(name='customer')
+#			    user.groups.add(group)
+#
+#			    Customer.objects.create(
+#				user=user,
+#				name=user.username,
+#				)
+
+#			    messages.success(request, 'Account was created for ' + username)
+#			    return redirect('login')
+
+
+#		context = {'form':form}
+#		return render(request, 'store/register.html', context)
 
 def loginPage(request):
 	if request.user.is_authenticated:
