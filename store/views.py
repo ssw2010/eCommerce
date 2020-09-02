@@ -95,18 +95,25 @@ def deleteOrder(request, pk):
 
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['customer', 'admin'])
-def userPage(request):
+def user(request):
+    #customer = Customer.objects.get.all()
 	orders = request.user.customer.order_set.all()
-
-	total_orders = orders.count()
+#	order_details = request.order.OrderItem_set.all()
+	order_count = orders.count()
+   # orders = customer.order_set.all()
+   # order_count =  orders.count()
+    #ordrorder_count = orders.count()
 	delivered = orders.filter(status='Delivered').count()
 	pending = orders.filter(status='Pending').count()
+	#Orrders = Order__Customer.name
 
 	print('ORDERS:', orders)
 
-	context = {'orders':orders, 'total_orders':total_orders,
-	'delivered':delivered,'pending':pending}
-	return render(request, 'store/user.html', context)
+	context = {'orders':orders, 'delivered':delivered,'pending':pending,  'orders':orders, 'order_count':order_count}
+	return render(request, 'store/customers.html',  context)
+
+
+
 
 ##main page
 
@@ -257,31 +264,6 @@ def registerPage(request):
 	context = {'form':form}
 	return render(request, 'store/register.html', context)
 
-#def registerPage(request):
-#	if request.user.is_authenticated:
-#		return redirect('userPage')
-#	else:
-#		form = CreateUserForm()
-#		if request.method == 'POST':
-#			form = CreateUserForm(request.POST)
-#			if form.is_valid():
-#			    user = form.save()
-#			    username = form.cleaned_data.get('username')
-#
-#			    group = Group.objects.get(name='customer')
-#			    user.groups.add(group)
-#
-#			    Customer.objects.create(
-#				user=user,
-#				name=user.username,
-#				)
-
-#			    messages.success(request, 'Account was created for ' + username)
-#			    return redirect('login')
-
-
-#		context = {'form':form}
-#		return render(request, 'store/register.html', context)
 
 def loginPage(request):
 	if request.user.is_authenticated:
