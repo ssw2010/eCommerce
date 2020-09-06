@@ -7,3 +7,8 @@ class StoreConfig(AppConfig):
     def ready(self):
     	import store.signals
 
+class PagesConfig(AppConfig):
+    name = 'pages'
+
+class PollsConfig(AppConfig):
+    name = 'polls'
