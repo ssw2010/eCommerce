@@ -45,7 +45,7 @@ def test(request):
 def dashboard(request):
 	orders = Order.objects.all().order_by('-transaction_id')
 	customers = Customer.objects.all()
-
+	iorders = OrderItem.objects.all().order_by('-date_added')
 	total_customers = customers.count()
 
 	total_orders = orders.count()
@@ -54,7 +54,7 @@ def dashboard(request):
 
 	context = {'orders':orders, 'customers':customers,
 	'total_orders':total_orders,'delivered':delivered,
-	'pending':pending }
+	'pending':pending, 'iorders':iorders }
 
 	return render(request, 'store/dashboard.html', context)
 
