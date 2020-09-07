@@ -22,8 +22,9 @@
      <thead>
 				<tr>
 					<th>Date Ordered</th>
-					<th>Product</th>
 					<th>Transaction ID</th>
+					<th>Product</th>
+					<th>Quantity</th>
 					<th>Customer</th>
 					<th>Order Status</th>
 					<th>Paid</th>
@@ -35,14 +36,14 @@
 
 {% for i in iorders %}
 					<tr>                        <td>{{i.order.date_ordered}}</td>
+												<td>{{i.order.transaction_id}}</td>
 												<td>{{i.product}}</td>
-                                                <td>{{i.order.transaction_id}}</td>
-												<td>{{i.order.customer}}</td>
+												<td>{{i.quantity}}</td>
+                                                <td><a href="https://sswyman.pythonanywhere.com/customer/{{ i.order.customer.id }}/">{{ i.order.customer.name }}</a></td>
 												<td>{{i.order.status}}</td>
 												<td>{{i.order.complete}}</td>
-													<td><a class="btn btn-sm btn-info" href="{% url 'update_order' i.order.id %}">Update</a></td>
-
-						<td><a class="btn btn-sm btn-danger" href="{% url 'delete_order' i.order.id %}">Delete</a></td>
+												<td><a class="btn btn-sm btn-info" href="{% url 'update_order' i.order.id %}">Update</a></td>
+                         						<td><a class="btn btn-sm btn-danger" href="{% url 'delete_order' i.order.id %}">Delete</a></td>
 
 
 

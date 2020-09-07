@@ -61,7 +61,7 @@ def dashboard(request):
 ##Show detailed view per customers
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin', 'customer'])
+@allowed_users(allowed_roles=['admin'])
 def customer(request,pk_test):
     customer = Customer.objects.get(id=pk_test)
     orders = customer.order_set.all()
@@ -103,22 +103,15 @@ def deleteOrder(request, pk):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['customer', 'admin'])
 def user(request):
-    #customer = Customer.objects.get.all()
-	orders = request.user.customer.order_set.all()
-#	order_details = request.order.OrderItem_set.all()
-	order_count = orders.count()
-   # orders = customer.order_set.all()
-   # order_count =  orders.count()
-    #ordrorder_count = orders.count()
-	delivered = orders.filter(status='Delivered').count()
-	pending = orders.filter(status='Pending').count()
-	#Test = OrderItem.objects.filter(order__
-	#Orrders = Order__Customer.name
+    iorders = OrderItem.objects.all().order_by('-date_added')
+    orders = request.user.customer.order_set.all()
+    order_count = orders.count()
+    #tax = iorders_quantity + 2 , 'tax':tax
+    delivered = orders.filter(status='Delivered').count()
+    pending = orders.filter(status='Pending').count()
+    context = {'orders':orders, 'delivered':delivered,'pending':pending,  'orders':orders, 'order_count':order_count, 'iorders':iorders }
+    return render(request, 'store/customers.html',  context)
 
-	print('ORDERS:', orders)
-
-	context = {'orders':orders, 'delivered':delivered,'pending':pending,  'orders':orders, 'order_count':order_count}
-	return render(request, 'store/customers.html',  context)
 
 
 
@@ -250,7 +243,7 @@ def createOrder(request):
 			return redirect('/')
 
 	context = {'form':form}
-	return render(request, 'store/order_form.html', context)
+	return render(request, 'store/dashboard.html', context)
 
 
 @unauthenticated_user
