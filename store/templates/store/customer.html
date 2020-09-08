@@ -43,7 +43,7 @@
 			<form method="get">
 				{{myFilter.form}}
 
-		    <button class="btn btn-primary" type="submit">Searchyyy</button>
+		    <button class="btn btn-primary" type="submit">Searchyyyp</button>
 		  </form>
 
 		</div>
@@ -55,31 +55,51 @@
 
 
 
-
-<div class="row">
-	<div class="col-md">
-		<div class="card card-body">
-			<table class="table table-sm">
+<div style="overflow-x:auto;">
+    <h5>ALL ORDERS</h5>
+		<hr>
+ <table class="table table-sm">
+     <thead>
 				<tr>
-					<th>Transaction ID</th>
 					<th>Date Ordered</th>
-					<th>Status</th>
+					<th>Transaction ID</th>
+					<th>Product</th>
+					<th>Quantity</th>
+					<th>Cost</th>
+					<th>Tax Paid</th>
+					<th>Order Status</th>
+					<th>Paid</th>
+					<th>Customer Name</th>
+
 
 				</tr>
+</thead>
 
-				{% for order in orders %}
+{% for i in iorders %}
+					<tr>                        <td>{{i.order.date_ordered}}</td>
+												<td>{{i.order.transaction_id}}</td>
+												<td>{{i.product}}</td>
+												<td>{{i.quantity }}</td>
+												<td>{% widthratio i.quantity 1 2 %}</td>
+												<td>{% widthratio i.quantity 1 0.1 %}</td>
+                                                <td>{{i.order.status}}</td>
+												<td>{{i.order.complete}}</td>
+												<td>{{i.order.customer.name}}</td>
 
-				<tr>
-					<td>{{order.transaction_id}}</td>
-					<td>{{order.date_ordered}}</td>
-					<td>{{order.status}}</td>
 
-				</tr>
-				{% endfor %}
 
-			</table>
-		</div>
-	</div>
+
+
+
+
+
+
+
+
+						{% endfor %}
+
+</table>
+
 </div>
-
+	</div>
 {% endblock %}

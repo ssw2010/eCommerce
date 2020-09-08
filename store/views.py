@@ -61,14 +61,15 @@ def dashboard(request):
 ##Show detailed view per customers
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
+@allowed_users(allowed_roles=['admin', 'customer'])
 def customer(request,pk_test):
     customer = Customer.objects.get(id=pk_test)
+    iorders = OrderItem.objects.filter(order__customer_id=pk_test).order_by('-date_added')
     orders = customer.order_set.all()
     order_count = orders.count()
    #address = Customer.order_set.all()
 	#customer = Customer.objects.all()
-    context = {'customer':customer, 'orders':orders, 'order_count':order_count}
+    context = {'customer':customer, 'orders':orders, 'order_count':order_count, 'iorders':iorders }
     return render(request, "store/customer.html", context)
 
 
